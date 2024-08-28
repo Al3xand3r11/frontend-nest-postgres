@@ -1,7 +1,21 @@
-import { AwaitedReactNode, JSXElementConstructor, ReactElement, ReactNode, ReactPortal, useState } from "react";
+import { useState } from "react";
 
 export default function Login() {
-    const [userData, setUserData] = useState<any>(); 
+    const [userData, setUserData] = useState<any>([]); 
+    const newData = {
+        name: 'test',
+        email: 'test@new.com',
+        preferences: 'test',
+    }
+
+    const addUser = async (e: any) => {
+        e.preventDefault();
+            await fetch('http://localhost:3000/users', {
+            method: 'POST',
+            body: JSON.stringify(newData),
+        });
+    }
+
     
 
     const checkLogin = async (e: any) => {
@@ -14,10 +28,17 @@ export default function Login() {
     return (
         <div className="h-screen bg-white content-center flex justify-center pt-60 ">
             <div className="border w-6/12 rounded-xl bg-slate-300 h-2/5 ">
-                <div className="pl-4 flex">
+                <div className="pl-4 flex flex-col">
                 <h1 className="text-2xl pt-4">Test users</h1>
-                <button onClick={checkLogin}>Get Users</button>
-                <p>{userData?.map((userData: { name: string | number | bigint | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<AwaitedReactNode> | null | undefined; }) => <div>{userData.name}</div>)}</p>
+                <button onClick={addUser} className="border rounded-xl">Add User</button>
+                <button onClick={checkLogin} className="border rounded-xl">Get Users</button>
+                <p>{userData?.map((userData: { name: string }) => <div>{userData.name}</div>)}</p>
+                { /*<form>
+                    <label className="text-lg">name</label>
+                    <input className="border rounded-lg" type="text" name="name" />
+                    <label className="text-lg">email</label>
+                    <input className="border rounded-lg" type="email" name="email" />
+    </form> */}
                 </div>
             </div>
         </div>
