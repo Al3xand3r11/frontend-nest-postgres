@@ -21,18 +21,21 @@ export function SigninForm() {
   const router = useRouter();  
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [valid, setValid] = useState<boolean>(false);
   const testUser = {
     email: "test@gmail.com",
     password: "test1234",
     };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
 
     if (email === testUser.email && password === testUser.password) {
         console.log("Test user:" + testUser.email);
         console.log("Test input:" + email);
-        router.push("/");
+        setValid(true);
+        router.push(`/preferences/?user=${email}`);
+        
   }
     else {
         console.log("Test user:" + testUser.email);

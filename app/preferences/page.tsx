@@ -1,11 +1,16 @@
 'use client';
+import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { FaRegStar, FaStar } from 'react-icons/fa';
-import Toggle from './components/themetoggle';
-
-export default function Home( email: {email: string}) {
+import Toggle from '../components/themetoggle';
+export default function Preferences( email: {email: string}) {
     const [userData, setUserData] = useState<any>([]); 
     const [isStarFilled, setIsStarFilled] = useState<boolean>(false);
+    const router = useSearchParams();
+    const newEmail = router.toString().replace('%40', '@');
+    const finalEmail = newEmail.slice(0, -1);
+    console.log(finalEmail);
+
     const newData = {
         name: 'test',
         email: 'test@new.com',
@@ -32,13 +37,13 @@ export default function Home( email: {email: string}) {
     }
 
     return (
-        <div className="h-screen content-center flex justify-center pt-60 ">
+        <div className="h-screen content-center flex justify-center pt-60  ">
         <div className="flex flex-col w-full items-center justify-center">
             <div className="pb-4">
-                <button className="text-black border-4 mx-auto py-2 px-2">
-                    Save Changes
+                <button className=" border-4 mx-auto py-2 px-2">
+                    Save Changes for {finalEmail}
                 </button>
-                {email.email}
+                
                 <Toggle/>
                 
             </div>
