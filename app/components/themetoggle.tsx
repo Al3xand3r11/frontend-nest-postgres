@@ -1,24 +1,45 @@
-'use client';
+
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { FaMoon, FaRegMoon } from "react-icons/fa";
 
-export default function Toggle() {
+type ThemeProps = {
+  isDark: boolean;
+  setIsDark: (isDark: boolean) => void;
+};  
+
+export default function Toggle(
+  { isDark, setIsDark }: ThemeProps
+) {
     const [mounted, setMounted] = useState(false);
     const { theme, setTheme } = useTheme();
+    
 
     useEffect(() => setMounted(true), []);
 
     if (!mounted) {
       return null;
     }
+
+    const newTheme = () => {
+      if (theme === "light") {
+        setTheme("dark");
+        setIsDark(true);
+      } else {
+        setTheme("light");
+        setIsDark(false);
+      }
+    };
+
+    
   
     return (
       <div className="bg-background text-primary-green">
         The current theme is: {theme}
         <br />
-        <button onClick={() => setTheme('light')}>Light Mode</button>
-        <br />
-        <button onClick={() => setTheme('dark')}>Dark Mode</button>
+        <button>
+          {isDark ? <FaMoon onClick={newTheme} /> : <FaRegMoon onClick={newTheme} />}
+        </button>
       </div>
     );
     
