@@ -13,8 +13,35 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function SigninForm() {
+
+  const router = useRouter();  
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const testUser = {
+    email: "test@gmail.com",
+    password: "test1234",
+    };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    if (email === testUser.email && password === testUser.password) {
+        console.log("Test user:" + testUser.email);
+        console.log("Test input:" + email);
+        router.push("/");
+  }
+    else {
+        console.log("Test user:" + testUser.email);
+        console.log("Test input:" + email);
+        alert("Invalid email or password");
+    }
+
+    };
+
   return (
     <div className="w-full max-w-md">
       <form>
@@ -32,6 +59,8 @@ export function SigninForm() {
                 id="identifier"
                 name="identifier"
                 type="text"
+                value={email}
+                onChange={(e: any) => setEmail(e.target.value)}
                 placeholder="username or email"
               />
             </div>
@@ -40,13 +69,15 @@ export function SigninForm() {
               <Input
                 id="password"
                 name="password"
+                value={password}
+                onChange={(e: any) => setPassword(e.target.value)}
                 type="password"
                 placeholder="password"
               />
             </div>
           </CardContent>
           <CardFooter className="flex flex-col">
-            <button className="w-full">Sign In</button>
+            <button className="w-full" onClick={handleSubmit}>Sign In</button>
           </CardFooter>
         </Card>
         <div className="mt-4 text-center text-sm">
